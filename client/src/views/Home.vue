@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style lang="css">
+<style scoped>
 #flexbox-container{
   display: grid;
   width: 100%;
