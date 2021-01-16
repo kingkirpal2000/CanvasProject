@@ -27,6 +27,11 @@ function errorHandler(error, req, res, next) {
 
 app.use(errorHandler);
 
-// Creat user object 
-//  -Once user is created, store token as JWT with ONLY username
-//  -if they have token they will be able to access next route that calls for classes
+// TODO: 
+// [] if validated you need to check in db if user already exists
+// [] if user does not exist
+// 	[] bcrypt password and access token and store in db
+// 	[] create JWT token with user id from db and username
+// [] create middleware to checkfortoken and set user if token exists
+// [] create middleware to restrict access to canvas routes if not logged in
+// [] if logged in create routes to get into db and use the encrypted access token to reach into canvas

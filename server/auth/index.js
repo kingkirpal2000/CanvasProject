@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require("express")
 const router = express.Router();
 const Joi = require('joi');
 
@@ -22,8 +22,18 @@ router.post("/newstudent", (req, res, next) => {
   if(result.error){
     const error = new Error("Invalid Credentials");
     next(error);
-  } else{
-    res.send("Validated schema.");
+  } else {
+    users.findOne({
+      email: req.body.email
+    }).then((user)=>{
+      if(user){
+	const error = new Error("User with this email already exists");
+	res.status(409);
+	next(error);
+      } else {
+	res.send("Validated");
+      }
+    });
   }
 });
 
