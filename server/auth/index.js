@@ -19,7 +19,12 @@ router.get("/", (req, res) => {
 
 router.post("/newstudent", (req, res, next) => {
   const result = Signupschema.validate(req.body);
-  
+  if(result.error){
+    const error = new Error("Invalid Credentials");
+    next(error);
+  } else{
+    res.send("Validated schema.");
+  }
 });
 
 
