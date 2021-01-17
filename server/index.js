@@ -36,8 +36,7 @@ function errorHandler(error, req, res, next) {
 app.use(errorHandler);
 
 // TODO:
-// [] create JWT token with user id from db and username
-// [] create middleware to checkfortoken and set user if token exists
+// [] ready to create get course canvas route
 // [] create middleware to restrict access to canvas routes if not logged in
 // [] if logged in create routes to get into db and use the encrypted access token to reach into canvas
 // [] for each user add a collection of classes
