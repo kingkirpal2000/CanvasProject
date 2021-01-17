@@ -61,6 +61,7 @@ router.post("/newstudent", (req, res, next) => {
               email: req.body.email,
               password: hashedPassword,
               accessToken: hashedAT,
+              courses: [], // Creted field already so we don't have to go back to update later
             };
 
             users.insert(insertUser).then((insertedUser) => {
