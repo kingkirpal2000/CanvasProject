@@ -1,6 +1,10 @@
 const express = require("express")
 const router = express.Router();
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
 
 const db = require("../database/connect.js");
 const users = db.get('users');
@@ -9,6 +13,7 @@ users.createIndex("username", { unique: true });
 const Signupschema = Joi.object().keys({
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu'] } }).required(),
   password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+  accessToken: Joi.string().required(),
 });
 
 router.get("/", (req, res) => {
@@ -17,21 +22,53 @@ router.get("/", (req, res) => {
   });
 });
 
+function createToken(user, res, next) {
+  const payload = {
+    _id: user._id,
+    email: user.email,
+  };
+
+  jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1d' }, (err, token) => {
+    if (err) {
+      console.log(err);
+      res.status(422);
+      const error = new Error("Error Signing in User");
+      next(error);
+    } else {
+      res.json({ token });
+    }
+  });
+}
+
 router.post("/newstudent", (req, res, next) => {
   const result = Signupschema.validate(req.body);
-  if(result.error){
+  if (result.error) {
+    res.status(406);
     const error = new Error("Invalid Credentials");
     next(error);
   } else {
     users.findOne({
       email: req.body.email
-    }).then((user)=>{
-      if(user){
-	const error = new Error("User with this email already exists");
-	res.status(409);
-	next(error);
+    }).then((user) => {
+      if (user) {
+        const error = new Error("User with this email already exists");
+        //res.status(409);
+        next(error);
       } else {
-	res.send("Validated");
+        bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
+          bcrypt.hash(req.body.accessToken, 12).then((hashedAT) => {
+            const insertUser = {
+              email: req.body.email,
+              password: hashedPassword,
+              accessToken: hashedAT,
+            };
+
+            users.insert(insertUser).then((insertedUser) => {
+              createToken(insertedUser, res, next);
+            });
+
+          });
+        });
       }
     });
   }

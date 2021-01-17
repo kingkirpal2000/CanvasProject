@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const volleyball = require('volleyball');
 
 const auth = require("./auth/index.js");
 
+app.use(volleyball);
 app.use(express.json());
 app.use('/auth', auth);
 
@@ -28,10 +30,9 @@ function errorHandler(error, req, res, next) {
 app.use(errorHandler);
 
 // TODO: 
-// [] if validated you need to check in db if user already exists
-// [] if user does not exist
-// 	[] bcrypt password and access token and store in db
-// 	[] create JWT token with user id from db and username
+// [] create JWT token with user id from db and username
 // [] create middleware to checkfortoken and set user if token exists
 // [] create middleware to restrict access to canvas routes if not logged in
 // [] if logged in create routes to get into db and use the encrypted access token to reach into canvas
+// [] for each user add a collection of classes
+// [] create login route
