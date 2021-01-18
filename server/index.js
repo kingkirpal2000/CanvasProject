@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 app.use('/auth', auth);
 
 
+
 app.listen(8081, () => {
   console.log("Listening at http://localhost:8081");
 });
@@ -37,7 +38,5 @@ app.use(errorHandler);
 
 // TODO:
 // [] ready to create get course canvas route
-// [] create middleware to restrict access to canvas routes if not logged in
 // [] if logged in create routes to get into db and use the encrypted access token to reach into canvas
-// [] for each user add a collection of classes
 // [] create login route
