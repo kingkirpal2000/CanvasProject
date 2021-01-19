@@ -4,6 +4,7 @@ const volleyball = require('volleyball');
 
 const auth = require("./auth/index.js");
 const middleware = require("./auth/middleware.js");
+const tasks = require("./tasks/canvastasks.js");
 
 app.use(volleyball);
 app.use(express.json());
@@ -18,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
-
+app.use('/tasks', tasks);
 
 
 app.listen(8081, () => {
