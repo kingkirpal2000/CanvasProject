@@ -3,6 +3,9 @@ const router = express.Router();
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Cryptr = require('cryptr');
+
+const cryptr = new Cryptr('encodedDecoded');
 
 require('dotenv').config();
 
@@ -12,13 +15,13 @@ users.createIndex("username", { unique: true });
 
 const Signupschema = Joi.object().keys({
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu'] } }).required(),
-  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+  password: Joi.string().required(),
   accessToken: Joi.string().required(),
 });
 
 const Loginschema = Joi.object().keys({
   email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'edu'] } }).required(),
-  password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+  password: Joi.string().required(),
 });
 
 router.get("/", (req, res) => {
@@ -31,6 +34,7 @@ function createToken(user, res, next) {
   const payload = {
     _id: user._id,
     email: user.email,
+    accessToken: cryptr.decrypt(user.accessToken)
   };
 
   jwt.sign(payload, process.env.TOKEN_SECRET, { expiresIn: '1d' }, (err, token) => {
@@ -61,18 +65,16 @@ router.post("/newstudent", (req, res, next) => {
         next(error);
       } else {
         bcrypt.hash(req.body.password, 12).then((hashedPassword) => {
-          bcrypt.hash(req.body.accessToken, 12).then((hashedAT) => {
-            const insertUser = {
-              email: req.body.email,
-              password: hashedPassword,
-              accessToken: hashedAT,
-              courses: [], // Creted field already so we don't have to go back to update later
-            };
-
-            users.insert(insertUser).then((insertedUser) => {
-              createToken(insertedUser, res, next);
-            });
-
+          const encryptedAT = cryptr.encrypt(req.body.accessToken);
+          const insertUser = {
+            email: req.body.email,
+            password: hashedPassword,
+            accessToken: encryptedAT,
+            //courses: [], // Creted field already so we don't have to go back to update later
+          };
+          console.log(insertUser);
+          users.insert(insertUser).then((insertedUser) => {
+            createToken(insertedUser, res, next);
           });
         });
       }

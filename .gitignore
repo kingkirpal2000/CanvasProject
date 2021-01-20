@@ -109,3 +109,4 @@ dist
 node_modules/
 api.py
 config.py
+result.json

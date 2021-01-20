@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
-app.use('/tasks', tasks);
+app.use('/tasks', middleware.isLoggedin, tasks);
 
 
 app.listen(8081, () => {
@@ -37,7 +37,8 @@ function errorHandler(error, req, res, next) {
 
 app.use(errorHandler);
 
-// TODO:
-// [] ready to create get course canvas route
-// [] if logged in create routes to get into db and use the encrypted access token to reach into canvas
-// [] create login route
+
+//Finished Canvas routes now you have access to all courses and all previous grades.
+// Some things to think about :
+// - Should I add all courses to db courses array
+// - How should I store current grades and assignments
