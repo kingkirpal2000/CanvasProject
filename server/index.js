@@ -38,7 +38,18 @@ function errorHandler(error, req, res, next) {
 app.use(errorHandler);
 
 
-//Finished Canvas routes now you have access to all courses and all previous grades.
-// Some things to think about :
-// - Should I add all courses to db courses array
-// - How should I store current grades and assignments
+//DB Scheme;
+  // Collection Users {
+    // _id
+    // email
+    // password
+    // accessToken
+    // courses = [course1 {course _id, course name, course grading weights {w1: wv1, w2: wv2, w3: wv3}}]
+  // }  
+
+  // Collection Assignments {
+    // Name
+    // Type(test/quiz/hw)
+    // Reference Course _id
+    // {Type: Public, Reference User _id: null}
+  // }
