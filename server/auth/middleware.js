@@ -10,7 +10,6 @@ function checktokenSetUser(req, res, next) {
           console.log(err);
         }
         req.user = decoded;
-        console.log(req.user);
         /* req.user = {
            _id: '60068e5cbd493149e02e993e',
           email: 'test@test.com',
