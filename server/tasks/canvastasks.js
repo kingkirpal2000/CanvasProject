@@ -8,7 +8,7 @@ const db = require("../database/connect.js");
 const users = db.get("users");
 
 //Use this post method to populate courses in db then you can search using the course names
-router.post("/", async(req, res, next) => {
+router.post("/", async (req, res, next) => {
   let json;
   try {
     const apiResponse = await fetch('https://catcourses.ucmerced.edu//api/v1/users/self/courses?include[]=total_scores&include[]=current_grading_period_scores&enrollment_type=student&include[]=concluded&per_page=1000', {
@@ -40,7 +40,7 @@ router.post("/", async(req, res, next) => {
 
 });
 
-router.get("/testRoute", async(req, res, next) => {
+router.get("/testRoute", async (req, res, next) => {
   const foundQuery = await users.find({ email: req.user.email });
   const queryResult = await foundQuery[0]["courses"];
   const options = {
@@ -53,15 +53,25 @@ router.get("/testRoute", async(req, res, next) => {
     try {
       const fetchAPI = await fetch(`https://catcourses.ucmerced.edu/api/v1/courses/${objects["id"]}/assignment_groups`, options);
       const response = await fetchAPI.json();
-      console.log(response);
+
+      users.update(
+        {
+          email: req.user.email,
+          "courses.id": objects["id"]
+        },
+        { $set: { "courses.$.gradingWeights": response } }
+      ); // This works fine just names of categories not appearing in response
+
+
     } catch (error) {
       next(error);
     }
 
   }
-  //console.log(queryResult);
 
 })
+
+
 
 
 module.exports = router;
