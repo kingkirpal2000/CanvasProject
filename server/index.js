@@ -5,6 +5,7 @@ const volleyball = require('volleyball');
 const auth = require("./auth/index.js");
 const middleware = require("./auth/middleware.js");
 const tasks = require("./tasks/canvastasks.js");
+const assignmentTasks = require("./tasks/assignmenttasks.js");
 
 app.use(volleyball);
 app.use(express.json());
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', auth);
 app.use('/tasks', middleware.isLoggedin, tasks);
+app.use('/assignments/tasks', middleware.isLoggedin, assignmentTasks);
 
 
 app.listen(8081, () => {
@@ -45,7 +47,7 @@ app.use(errorHandler);
 // password
 // accessToken
 // courses = [course1 {course _id, course name, course grading weights {w1: wv1, w2: wv2, w3: wv3} }]
-// }  
+// }
 
 // Collection Assignments {
 // Name
@@ -57,13 +59,13 @@ app.use(errorHandler);
 // Courses {
 // "id"
 // "name"
-// 
-// 
+//
+//
 // }
 
 
 // Finish task route to upload courses in the courses field db
-// Find out how to get weights 
+// Find out how to get weights
 // Then ready to work on assignments collections
 // Then go back to client
 

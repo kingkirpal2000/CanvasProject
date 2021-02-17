@@ -8,7 +8,7 @@ const db = require("../database/connect.js");
 const users = db.get("users");
 
 //Use this post method to populate courses in db then you can search using the course names
-router.get("/", async(req, res, next) => {
+router.get("/", async (req, res, next) => {
   let json;
   try {
     const apiResponse = await fetch('https://catcourses.ucmerced.edu//api/v1/users/self/courses?include[]=total_scores&include[]=current_grading_period_scores&enrollment_type=student&include[]=concluded&per_page=1000', {
@@ -22,7 +22,7 @@ router.get("/", async(req, res, next) => {
   } catch (error) {
     next(error);
   }
-  let result = [];
+
   if (json) {
     const today = new Date();
     for (objects of json) {
@@ -37,7 +37,7 @@ router.get("/", async(req, res, next) => {
     }
   }
 
-  // Grading weights start here 
+  // Grading weights start here
   const foundQuery = await users.find({ email: req.user.email });
   const queryResult = await foundQuery[0]["courses"];
   const options = {
