@@ -6,18 +6,18 @@
       <div class="row">
         <div class="six columns">
           <label for="EmailInput">Email</label>
-          <input class="u-full-width" type="email"
+          <input class="u-full-width" v-model="user.email" type="email"
           placeholder="student123@ucmerced.edu" id="EmailInput">
         </div>
         <div class="six columns">
           <label for="AccessToken">Access Token</label>
-          <input class="u-full-width" type="text"
+          <input class="u-full-width" v-model="user.accessToken" type="text"
           placeholder="More instructions coming soon" id="AccessToken">
         </div>
       </div>
       <div class="row">
         <label for="Password">Password</label>
-        <input class="u-full-width" type="password"
+        <input class="u-full-width" v-model="user.password" type="password"
         placeholder="********" id="Password">
       </div>
       <input class="button-primary" type="submit" value="Submit">
@@ -26,9 +26,21 @@
 </template>
 
 <script>
+import vueJoiValidation, { Joi } from 'vue-joi-validation';
+
 export default {
   name: 'Signup',
   components: {},
+  data: () => ({
+    user: {
+      email: '',
+      password: '',
+      accessToken: '',
+    },
+  }),
+  methods: {
+
+  },
 };
 </script>
 
