@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
   });
 });
 
-function createToken(user, res, next) {
+function createToken(user, req, res, next) {
   const payload = {
     _id: user._id,
     email: user.email,
@@ -73,7 +73,7 @@ router.post("/newstudent", (req, res, next) => {
             courses: [], // Creted field already so we don't have to go back to update later
           };
           users.insert(insertUser).then((insertedUser) => {
-            createToken(insertedUser, res, next);
+            createToken(insertedUser, req, res, next);
           });
         });
       }
@@ -95,7 +95,7 @@ router.post("/returningstudent", (req, res, next) => {
             next(error);
           } else {
             if (result) {
-              createToken(foundUser, res, next);
+              createToken(foundUser, req, res, next);
             }
           }
         });

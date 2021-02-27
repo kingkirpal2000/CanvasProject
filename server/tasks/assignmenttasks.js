@@ -8,6 +8,7 @@ const assignmentCol = db.get("AssignmentList");
 assignmentCol.createIndex("assignments");
 
 router.get("/", async (req, res, next) => {
+	let response = [];
 	const foundQuery = await users.find({ email: req.user.email });
 	const queryResult = await foundQuery[0]["courses"];
 	const options = {
@@ -30,6 +31,7 @@ router.get("/", async (req, res, next) => {
 					category: assignments["assignment_group_id"], // assignment_group_id
 					due_at: assignments["due_at"] // due_at
 				};
+				response.push(assignmentSchema);
 				assignmentCol.insert(assignmentSchema);
 			}
 
@@ -37,7 +39,7 @@ router.get("/", async (req, res, next) => {
 			next(error);
 		}
 	}
-
+	res.json(response);
 });
 
 module.exports = router;

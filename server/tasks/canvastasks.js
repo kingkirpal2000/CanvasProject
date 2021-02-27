@@ -3,12 +3,12 @@ const router = express.Router();
 const fetch = require("node-fetch");
 const bcrypt = require("bcrypt");
 
-
 const db = require("../database/connect.js");
 const users = db.get("users");
 
 //Use this post method to populate courses in db then you can search using the course names
 router.get("/", async (req, res, next) => {
+  let response = [];
   let json;
   try {
     const apiResponse = await fetch('https://catcourses.ucmerced.edu//api/v1/users/self/courses?include[]=total_scores&include[]=current_grading_period_scores&enrollment_type=student&include[]=concluded&per_page=1000', {
@@ -32,6 +32,7 @@ router.get("/", async (req, res, next) => {
           name: objects["name"],
           gradingWeights: []
         }
+        response.push(courseSchema);
         users.update({ email: req.user.email }, { $addToSet: { courses: courseSchema } });
       }
     }
@@ -61,7 +62,7 @@ router.get("/", async (req, res, next) => {
     }
 
   }
-
+  res.json(response); // This doesnt include grading weights fix later
 });
 
 
