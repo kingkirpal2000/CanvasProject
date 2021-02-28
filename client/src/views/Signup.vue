@@ -1,5 +1,11 @@
 <template>
   <div class="signup">
+    <!-- <div class="UCSeal">
+      <img src="/Users/darshwakdhami/Desktop/Side_Project">
+    </div> -->
+    <!-- ^^^ trying to add the uc seal image but it did not load in -->
+    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <!-- ^^^trying to do a colored header form the lessens -->
     <h1><strong>CatCourses Gradebook Manager</strong></h1>
     <h3>Sign up to conveniently track your grades!</h3>
     <form @submit="validate()">
@@ -12,7 +18,8 @@
         <div class="six columns">
           <label for="AccessToken">Access Token</label>
           <input class="u-full-width" v-model="user.accessToken" type="text"
-          placeholder="More instructions coming soon" id="AccessToken">
+          placeholder="Token must be Requested from Duo" id="AccessToken">
+          Instructions on how to get Access Tokens. (hyperlink)
         </div>
       </div>
       <div class="row">
@@ -115,5 +122,21 @@ export default {
 form{
   margin: auto;
   width: 80%;
+}
+.button-primary{
+  background-color: cyan;
+  color: white;
+}
+.button-primary:hover{
+  background-color: #FFDF00;
+  color: white;
+}
+/* ^^supposed to change color w=once you hover over the submit button ^^*/
+
+.signup{
+  font-family: Arvo, 'Times New Roman', Times, serif, arvo;
+  color: #FFDF00 /*https://www.rapidtables.com/web/color/Gold_Color.html*/;
+   background: #000080; /*https://www.rapidtables.com/web/css/css-color.html#blue */
+
 }
 </style>
