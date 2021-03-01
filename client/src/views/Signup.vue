@@ -2,7 +2,7 @@
   <div class="signup">
     <h1><strong>CatCourses Gradebook Manager</strong></h1>
     <h3>Sign up to conveniently track your grades!</h3>
-    <form @submit="validate()">
+    <form @submit.prevent="validate">
       <div class="row">
         <div class="six columns">
           <label for="EmailInput">Email</label>
@@ -77,10 +77,12 @@ export default {
               },
             }).then(async (returnedUser) => {
               const token = await returnedUser.json();
+              console.log(token);
               let tokenSplit = token.token;
               tokenSplit = tokenSplit.split(' ');
-              console.log(tokenSplit);
               if (returnedUser.ok) {
+                console.log('about to fetch');
+                console.log(tokenSplit[0]);
                 fetch('http://localhost:8081/tasks/', {
                   method: 'GET',
                   headers: {
