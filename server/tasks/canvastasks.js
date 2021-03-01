@@ -8,7 +8,7 @@ const users = db.get("users");
 
 //Use this post method to populate courses in db then you can search using the course names
 router.get("/", async (req, res, next) => {
-  let response = [];
+  let responseArray = [];
   let json;
   try {
     const apiResponse = await fetch('https://catcourses.ucmerced.edu//api/v1/users/self/courses?include[]=total_scores&include[]=current_grading_period_scores&enrollment_type=student&include[]=concluded&per_page=1000', {
@@ -32,7 +32,7 @@ router.get("/", async (req, res, next) => {
           name: objects["name"],
           gradingWeights: []
         }
-        response.push(courseSchema);
+        responseArray.push(courseSchema);
         users.update({ email: req.user.email }, { $addToSet: { courses: courseSchema } });
       }
     }
@@ -47,22 +47,22 @@ router.get("/", async (req, res, next) => {
       'Content-Type': 'application/x-www-form-urlencoded'
     }
   }
+  let iterator = 0;
   for (objects of queryResult) {
     try {
       const fetchAPI = await fetch(`https://catcourses.ucmerced.edu/api/v1/courses/${objects["id"]}/assignment_groups`, options);
       const response = await fetchAPI.json();
-
       users.update({
         email: req.user.email,
         "courses.id": objects["id"]
       }, { $set: { "courses.$.gradingWeights": response } });
-
+      responseArray[iterator++]["gradingWeights"].push(response);
     } catch (error) {
       next(error);
     }
-
   }
-  res.json(response); // This doesnt include grading weights fix later
+  console.log(responseArray[0]["gradingWeights"]);
+  res.json(responseArray); // This doesnt include grading weights fix later
 });
 
 
