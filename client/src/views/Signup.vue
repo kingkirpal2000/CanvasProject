@@ -77,22 +77,20 @@ export default {
               },
             }).then(async (returnedUser) => {
               const token = await returnedUser.json();
-              console.log(token);
               let tokenSplit = token.token;
               tokenSplit = tokenSplit.split(' ');
+              localStorage.token = tokenSplit;
               if (returnedUser.ok) {
-                console.log('about to fetch');
-                console.log(tokenSplit[0]);
                 fetch('http://localhost:8081/tasks/', {
                   method: 'GET',
                   headers: {
-                    Authorization: `Bearer ${tokenSplit[0]}`,
+                    Authorization: `Bearer ${localStorage.token}`,
                   },
                 }).then(() => {
                   fetch('http://localhost:8081/assignments/tasks/', {
                     method: 'GET',
                     headers: {
-                      Authorization: `Bearer ${tokenSplit[0]}`,
+                      Authorization: `Bearer ${localStorage.token}`,
                     },
                   });
                   this.$router.push('/Dashboard');

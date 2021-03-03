@@ -42,10 +42,31 @@ router.get("/", async (req, res, next) => {
 	res.json(response);
 });
 
+router.post("/newassignment", async (req, res, next) => {
+	const foundQuery = await users.find({ email: req.user.email });
+	const queryResult = await foundQuery[0]["courses"];
+	let Courseid;
+	let Categoryid;
+	for (objects of queryResult) {
+		if (req.body.courseName === objects["name"]) {
+			Courseid = objects["id"];
+		}
+		for (courses of objects["gradingWeights"]) {
+			if (req.body.category === courses["name"]) {
+				Categoryid = courses["id"];
+			}
+		}
+	}
+	const assignmentSchema = {
+		assignmentId: 0000,
+		courseId: Courseid,
+		private: true,
+		name: req.body.name,
+		category: Categoryid,
+		due_at: new Date(req.body.due_at)
+	};
+	assignmentCol.insert(assignmentSchema);
+	res.json(assignmentSchema);
+});
+
 module.exports = router;
-// Assignement => {
-// private - userId it belongs to
-// courseId it belongs to
-// name
-// which category it belongs to
-//}

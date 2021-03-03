@@ -61,7 +61,7 @@ router.get("/", async (req, res, next) => {
       next(error);
     }
   }
-  console.log(responseArray[0]["gradingWeights"]);
+  //console.log(responseArray[0]["gradingWeights"]);
   res.json(responseArray); // This doesnt include grading weights fix later
 });
 
