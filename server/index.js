@@ -7,6 +7,7 @@ const auth = require("./auth/index.js");
 const middleware = require("./auth/middleware.js");
 const tasks = require("./tasks/canvastasks.js");
 const assignmentTasks = require("./tasks/assignmenttasks.js");
+const api = require("./tasks/canvasAPI.js");
 
 app.use(cors());
 app.use(volleyball);
@@ -33,6 +34,7 @@ app.get('/', (req, res) => {
 app.use('/auth', auth);
 app.use('/tasks', middleware.isLoggedin, tasks);
 app.use('/assignments/tasks', middleware.isLoggedin, assignmentTasks);
+app.use('/api/v1', middleware.isLoggedin, api);
 
 
 app.listen(8081, () => {
