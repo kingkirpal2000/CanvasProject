@@ -61,12 +61,42 @@ router.post("/newassignment", async (req, res, next) => {
 		assignmentId: 0000,
 		courseId: Courseid,
 		private: true,
+		owner: req.user._id,
 		name: req.body.name,
 		category: Categoryid,
 		due_at: new Date(req.body.due_at)
 	};
 	assignmentCol.insert(assignmentSchema);
 	res.json(assignmentSchema);
+});
+
+router.post("/removeassignment", async (req, res, next) => {
+	const foundQuery = await users.find({ email: req.user.email });
+	const queryResult = await foundQuery[0]["courses"];
+	let Courseid;
+	let Categoryid;
+	for (objects of queryResult) {
+		if (req.body.courseName === objects["name"]) {
+			Courseid = objects["id"];
+		}
+		for (courses of objects["gradingWeights"]) {
+			if (req.body.category === courses["name"]) {
+				Categoryid = courses["id"];
+			}
+		}
+	}
+	const query = {
+		assignmentId: 0,
+		owner: req.user._id,
+		name: req.body.name,
+		category: Categoryid,
+		courseId: Courseid,
+	};
+	assignmentCol.remove(query, (err, removed) => {
+		if (!err) {
+			res.json(query);
+		}
+	});
 });
 
 module.exports = router;

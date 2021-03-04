@@ -12,3 +12,4 @@ router.post("/courseData", (req, res) => {
 });
 
 module.exports = router;
+
