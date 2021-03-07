@@ -1,12 +1,12 @@
 <template>
   <div class="signup">
-    <!-- <div class="UCSeal">
-      <img src="/Users/darshwakdhami/Desktop/Side_Project">
-    </div> -->
+    <div class="Temp">
+      <img src="../assets/Temp_plate.svg.png" width="100" height="60">
+    </div>
     <!-- ^^^ trying to add the uc seal image but it did not load in -->
     <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
     <!-- ^^^trying to do a colored header form the lessens -->
-    <h1><strong>CatCourses Gradebook Manager</strong></h1>
+    <h1><strong>Canvas Gradebook Simulator</strong></h1> <!-- CatCourses Gradebook Manager -->
     <h3>Sign up to conveniently track your grades!</h3>
     <form @submit="validate()">
       <div class="row">
@@ -19,7 +19,7 @@
           <label for="AccessToken">Access Token</label>
           <input class="u-full-width" v-model="user.accessToken" type="text"
           placeholder="Token must be Requested from Duo" id="AccessToken">
-          Instructions on how to get Access Tokens. (hyperlink)
+          <a href="http://localhost:8080/?#/login">Instructions on how to get Access Tokens. (hyperlink)</a>
         </div>
       </div>
       <div class="row">
@@ -27,13 +27,20 @@
         <input class="u-full-width" v-model="user.password" type="password"
         placeholder="********" id="Password">
       </div>
+      &ensp;
       <div class="row">
         <label for="ConfirmPassword">Confirm Password</label>
         <input class="u-full-width" v-model="user.confirmPassword" type="password"
         placeholder="********" id="CPassword">
+        &ensp;
       </div>
       <input class="button-primary" type="submit" value="Submit">
     </form>
+    &ensp;
+    &ensp;
+    <p><a href="http://localhost:8080/?#/login">Already have an Account?</a></p>
+    &ensp;
+    <p><a href="http://localhost:8080/?#/login">Help</a>  ||  <a href="http://localhost:8080/?#/login">Contact</a>  ||  <a href="http://localhost:8080/?#/login"> About</a> </p>
   </div>
 </template>
 
@@ -123,20 +130,20 @@ form{
   margin: auto;
   width: 80%;
 }
-.button-primary{
+/* .button-primary{
   background-color: cyan;
   color: white;
 }
-.button-primary:hover{
+.button-primary{
   background-color: #FFDF00;
   color: white;
-}
+} */
+/* may not need no more changed it in the skelton.css */
 /* ^^supposed to change color w=once you hover over the submit button ^^*/
 
 .signup{
   font-family: Arvo, 'Times New Roman', Times, serif, arvo;
   color: #FFDF00 /*https://www.rapidtables.com/web/color/Gold_Color.html*/;
-   background: #000080; /*https://www.rapidtables.com/web/css/css-color.html#blue */
-
+  background: #000080; /*https://www.rapidtables.com/web/css/css-color.html#blue */
 }
 </style>
