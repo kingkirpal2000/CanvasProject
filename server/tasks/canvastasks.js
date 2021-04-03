@@ -30,7 +30,8 @@ router.get("/", async (req, res, next) => {
         const courseSchema = {
           id: objects["id"],
           name: objects["name"],
-          gradingWeights: []
+          gradingWeights: [],
+          gradedAssignemnts: [],
         }
         responseArray.push(courseSchema);
         users.update({ email: req.user.email }, { $addToSet: { courses: courseSchema } });
@@ -65,6 +66,41 @@ router.get("/", async (req, res, next) => {
   res.json(responseArray);
 });
 
+
+router.get("/get-grades", async (req, res, next) => {
+  const foundQuery = await users.find({ email: req.user.email });
+  const queryResult = await foundQuery[0]["courses"];
+
+  for (objects of queryResult) {
+    try {
+      const result = await fetch(`http://catcourses.ucmerced.edu//api/v1/courses/${objects["id"]}/students/submissions`, {
+        'headers': {
+          'Authorization': `Bearer ${req.user.accessToken}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+      const resultJSON = await result.json();
+
+      for (objects of resultJSON) {
+        if (objects['workflow_state'] == 'graded') {
+          const gradeSchema = {
+            owner: req.user._id,
+            assignment_id: objects["assignment_id"],
+            grade: objects['grade']
+          }
+        }
+      }
+
+      //console.log(resultJSON);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+
+
+  res.send('done');
+});
 
 
 
