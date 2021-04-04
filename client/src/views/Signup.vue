@@ -35,6 +35,7 @@
         &ensp;
       </div>
       <input class="button-primary" type="submit" value="Submit">
+      <button type="button" class="btn btn-primary"> Submit </button>
     </form>
     &ensp;
     &ensp;
@@ -123,13 +124,13 @@ export default {
 };
 </script>
 
-<style scoped src="../assets/skeleton.css"/>
+<!--<style scoped src="../assets/skeleton.css"/>-->
 
 <style scoped lang="css">
-form{
+/*form{
   margin: auto;
   width: 80%;
-}
+}*/
 /* .button-primary{
   background-color: cyan;
   color: white;
@@ -141,9 +142,10 @@ form{
 /* may not need no more changed it in the skelton.css */
 /* ^^supposed to change color w=once you hover over the submit button ^^*/
 
-.signup{
+/*.signup{
   font-family: Arvo, 'Times New Roman', Times, serif, arvo;
-  color: #FFDF00 /*https://www.rapidtables.com/web/color/Gold_Color.html*/;
-  background: #000080; /*https://www.rapidtables.com/web/css/css-color.html#blue */
-}
+  color: #FFDF00 ;
+  background: #000080;
+  height: 100vh;
+}*/
 </style>

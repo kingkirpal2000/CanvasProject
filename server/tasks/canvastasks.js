@@ -7,7 +7,7 @@ const db = require("../database/connect.js");
 const users = db.get("users");
 
 //Use this post method to populate courses in db then you can search using the course names
-router.get("/", async (req, res, next) => {
+router.get("/", async(req, res, next) => {
   let responseArray = [];
   let json;
   try {
@@ -67,7 +67,7 @@ router.get("/", async (req, res, next) => {
 });
 
 
-router.get("/get-grades", async (req, res, next) => {
+router.get("/get-grades", async(req, res, next) => {
   const foundQuery = await users.find({ email: req.user.email });
   const queryResult = await foundQuery[0]["courses"];
 
@@ -88,6 +88,9 @@ router.get("/get-grades", async (req, res, next) => {
             assignment_id: objects["assignment_id"],
             grade: objects['grade']
           }
+          users.update({
+            email: req.user.email
+          }, { $push: { "submissions": gradeSchema } })
         }
       }
 

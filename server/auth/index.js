@@ -71,6 +71,7 @@ router.post("/newstudent", (req, res, next) => {
             password: hashedPassword,
             accessToken: encryptedAT,
             courses: [], // Creted field already so we don't have to go back to update later
+            submissions: [],
           };
           users.insert(insertUser).then((insertedUser) => {
             createToken(insertedUser, req, res, next);

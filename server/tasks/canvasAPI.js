@@ -6,7 +6,7 @@ const users = db.get('users');
 const assignmentCol = db.get('AssignmentList');
 
 
-router.get("/coursenames", async (req, res, next) => {
+router.get("/coursenames", async(req, res, next) => {
   const foundQuery = await users.find({ email: req.user.email });
   const queryResult = await foundQuery[0]["courses"];
   let responseArray = [];
@@ -19,7 +19,7 @@ router.get("/coursenames", async (req, res, next) => {
   res.send(responseArray);
 });
 
-router.get("/assignmentnames", async (req, res, next) => {
+router.get("/assignmentnames", async(req, res, next) => {
   const foundQuery = await users.find({ email: req.user.email });
   const queryResult = await foundQuery[0]["courses"];
   let responseArray = [];
@@ -44,6 +44,10 @@ router.get("/assignmentnames", async (req, res, next) => {
     }
   }
   res.send(responseArray);
+});
+
+router.post("/change-weight", (req, res, next) => {
+
 })
 
 module.exports = router;
